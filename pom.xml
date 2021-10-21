@@ -14,7 +14,7 @@
 	<name>catalog-town</name>
 	<description>The catalog component of the ecommerce project</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
