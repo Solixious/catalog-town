@@ -4,10 +4,12 @@ import lombok.Data;
 
 @Data
 public class CreateMerchantRequest {
-  String name;
-  String description;
-  String addressLine1;
-  String addressLine2;
-  String city;
-  String pinCode;
+
+  private String name;
+  private String description;
+  private String addressLine1;
+  private String addressLine2;
+  private String city;
+  private String pinCode;
+  private String country;
 }
