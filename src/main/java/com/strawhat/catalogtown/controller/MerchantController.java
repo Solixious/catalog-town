@@ -3,7 +3,7 @@ package com.strawhat.catalogtown.controller;
 import com.strawhat.catalogtown.exception.CatalogTownException;
 import com.strawhat.catalogtown.model.request.CreateMerchantRequest;
 import com.strawhat.catalogtown.model.response.CheckMerchantResponse;
-import com.strawhat.catalogtown.model.response.CreateMerchantResponse;
+import com.strawhat.catalogtown.model.Merchant;
 import com.strawhat.catalogtown.service.MerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +18,11 @@ public class MerchantController {
   private MerchantService merchantService;
 
   @PostMapping(CREATE)
-  public CreateMerchantResponse create(@RequestBody final CreateMerchantRequest createMerchantRequest) {
+  public Merchant create(@RequestBody final CreateMerchantRequest createMerchantRequest) {
     try {
       return merchantService.createMerchant(createMerchantRequest);
     } catch (CatalogTownException e) {
-      return CreateMerchantResponse.builder()
+      return Merchant.builder()
           .errorCode(e.getErrorCode())
           .errorDescription(e.getErrorDescription())
           .build();

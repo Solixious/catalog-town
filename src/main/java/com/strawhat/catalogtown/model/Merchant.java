@@ -1,5 +1,6 @@
-package com.strawhat.catalogtown.model.response;
+package com.strawhat.catalogtown.model;
 
+import com.strawhat.catalogtown.model.response.BaseResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -7,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @NoArgsConstructor
 @SuperBuilder
-public class CreateMerchantResponse extends BaseResponse {
+public class Merchant extends BaseResponse {
 
   private String name;
   private String code;
