@@ -31,6 +31,13 @@ public class MerchantController {
 
   @GetMapping(CHECK)
   public CheckMerchantResponse check(@PathVariable final String name) {
-    return CheckMerchantResponse.builder().name(name).exists(merchantService.isExistingMerchant(name)).build();
+    try {
+      return CheckMerchantResponse.builder().name(name).exists(merchantService.isExistingMerchant(name)).build();
+    } catch (CatalogTownException e) {
+      return CheckMerchantResponse.builder()
+          .errorCode(e.getErrorCode())
+          .errorDescription(e.getErrorDescription())
+          .build();
+    }
   }
 }

@@ -16,6 +16,7 @@ public interface MerchantService {
   /**
    * @param name Merchant name
    * @return true if the merchant exists
+   * @throws CatalogTownException name length is too less
    */
-  boolean isExistingMerchant(String name);
+  boolean isExistingMerchant(String name) throws CatalogTownException;
 }

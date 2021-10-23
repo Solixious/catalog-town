@@ -3,7 +3,8 @@ package com.strawhat.catalogtown.constants;
 public enum ErrorCode {
 
   MERCHANT_EXISTS("The merchant being created already exists."),
-  MERCHANT_NAME_LENGTH("Merchant name's length should be more than 3");
+  MERCHANT_NAME_LENGTH("Merchant name's length should be more than 3."),
+  REQUEST_BODY_MISSING("The request body was missing.");
 
   private String errorDescription;
 

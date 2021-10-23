@@ -32,19 +32,7 @@ public class MerchantServiceImpl implements MerchantService {
       throws CatalogTownException {
     log.debug("Received Create Merchant Request: {}", request);
 
-    if(request == null) {
-
-    }
-
-    if(request.getName().length() < 3) {
-      log.error("Merchant name {} length should be more than 3.", request.getName());
-      throw new CatalogTownException(ErrorCode.MERCHANT_NAME_LENGTH);
-    }
-
-    if(isExistingMerchant(request.getName())) {
-      log.error("Merchant name already exists: {}", request.getName());
-      throw new CatalogTownException(ErrorCode.MERCHANT_EXISTS);
-    }
+    validateCreateMerchantRequest(request);
 
     MerchantEntity merchantEntity = this.merchantRepository.save(convertToEntity(request));
 
@@ -53,8 +41,11 @@ public class MerchantServiceImpl implements MerchantService {
   }
 
   @Override
-  public boolean isExistingMerchant(final String name) {
+  public boolean isExistingMerchant(final String name) throws CatalogTownException {
     log.debug("Checking if merchant name exists: {}", name);
+
+    validateMerchantNameLength(name);
+
     return this.merchantRepository.findByName(name).isPresent();
   }
 
@@ -74,5 +65,26 @@ public class MerchantServiceImpl implements MerchantService {
     while(this.merchantRepository.findByCode(merchantCode = new StringBuilder(name.substring(0, 4)).append(DASH)
         .append(new Random().nextInt(8999) + 1000).toString()).isPresent());
     return merchantCode;
+  }
+
+  private void validateCreateMerchantRequest(CreateMerchantRequest request)
+      throws CatalogTownException {
+    if(request == null) {
+      log.error("Request body is missing.");
+      throw new CatalogTownException(ErrorCode.REQUEST_BODY_MISSING);
+    }
+
+    if(isExistingMerchant(request.getName())) {
+      log.error("Merchant name already exists: {}", request.getName());
+      throw new CatalogTownException(ErrorCode.MERCHANT_EXISTS);
+    }
+  }
+
+  private void validateMerchantNameLength(String name)
+      throws CatalogTownException {
+    if(name == null || name.equals("") || name.length() < 3) {
+      log.error("Merchant name {} length should be more than 3.", name);
+      throw new CatalogTownException(ErrorCode.MERCHANT_NAME_LENGTH);
+    }
   }
 }
