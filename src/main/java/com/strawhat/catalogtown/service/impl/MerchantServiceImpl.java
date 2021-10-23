@@ -32,6 +32,15 @@ public class MerchantServiceImpl implements MerchantService {
       throws CatalogTownException {
     log.debug("Received Create Merchant Request: {}", request);
 
+    if(request == null) {
+
+    }
+
+    if(request.getName().length() < 3) {
+      log.error("Merchant name {} length should be more than 3.", request.getName());
+      throw new CatalogTownException(ErrorCode.MERCHANT_NAME_LENGTH);
+    }
+
     if(isExistingMerchant(request.getName())) {
       log.error("Merchant name already exists: {}", request.getName());
       throw new CatalogTownException(ErrorCode.MERCHANT_EXISTS);
