@@ -1,9 +1,11 @@
 package com.strawhat.catalogtown.model.response;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
+@NoArgsConstructor
 @SuperBuilder
 public class CreateMerchantResponse extends BaseResponse {
 
@@ -16,5 +18,5 @@ public class CreateMerchantResponse extends BaseResponse {
   private String pinCode;
   private String country;
   private String createdBy;
-  private String createdDate;
+  private String createDate;
 }

@@ -8,6 +8,7 @@ import com.strawhat.catalogtown.model.response.CreateMerchantResponse;
 import com.strawhat.catalogtown.repository.MerchantRepository;
 import com.strawhat.catalogtown.service.MerchantService;
 import lombok.extern.slf4j.Slf4j;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class MerchantServiceImpl implements MerchantService {
 
   @Autowired
   private MerchantRepository merchantRepository;
+
+  @Autowired
+  private Mapper mapper;
 
   @Override
   public CreateMerchantResponse createMerchant(final CreateMerchantRequest request)
@@ -46,31 +50,13 @@ public class MerchantServiceImpl implements MerchantService {
   }
 
   private CreateMerchantResponse convertToMerchantResponse(final MerchantEntity merchantEntity) {
-    return CreateMerchantResponse.builder()
-        .name(merchantEntity.getName())
-        .code(merchantEntity.getCode())
-        .description(merchantEntity.getDescription())
-        .addressLine1(merchantEntity.getAddressLine1())
-        .addressLine2(merchantEntity.getAddressLine2())
-        .pinCode(merchantEntity.getPinCode())
-        .city(merchantEntity.getCity())
-        .country(merchantEntity.getCountry())
-        .createdBy(merchantEntity.getCreatedBy())
-        .createdDate(merchantEntity.getCreateDate().toString())
-        .build();
+    return mapper.map(merchantEntity, CreateMerchantResponse.class);
   }
 
   private MerchantEntity convertToEntity(final CreateMerchantRequest request) {
-    return MerchantEntity.builder()
-        .name(request.getName())
-        .code(generateMerchantCode(request.getName()))
-        .description(request.getDescription())
-        .addressLine1(request.getAddressLine1())
-        .addressLine2(request.getAddressLine2())
-        .pinCode(request.getPinCode())
-        .city(request.getCity())
-        .country(request.getCountry())
-        .build();
+    MerchantEntity entity = mapper.map(request, MerchantEntity.class);
+    entity.setCode(generateMerchantCode(request.getName()));
+    return entity;
   }
 
   private String generateMerchantCode(String name) {
