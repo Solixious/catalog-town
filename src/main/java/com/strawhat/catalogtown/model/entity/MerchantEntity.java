@@ -1,22 +1,22 @@
 package com.strawhat.catalogtown.model.entity;
 
-import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Builder
+@EqualsAndHashCode(callSuper = false)
+@SuperBuilder
 @Data
-@Entity(name = MerchantEntity.TABLE_NAME)
-public class MerchantEntity {
+@Entity
+@Table(name = MerchantEntity.TABLE_NAME)
+public class MerchantEntity extends BaseEntity {
 
   public static final String TABLE_NAME = "merchant";
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(unique = true)
@@ -36,10 +36,4 @@ public class MerchantEntity {
   private String pinCode;
 
   private String country;
-
-  @CreatedBy
-  private String createdBy;
-
-  @CreatedDate
-  private String createdDate;
 }

@@ -1,8 +1,10 @@
 package com.strawhat.catalogtown.model.response;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class CreateMerchantResponse {
 
   private String name;

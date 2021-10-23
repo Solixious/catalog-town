@@ -14,16 +14,31 @@ import java.util.Random;
 @Service
 public class MerchantServiceImpl implements MerchantService {
 
+  private static final String DASH = "-";
+
   @Autowired
   private MerchantRepository merchantRepository;
-
-
 
   @Override
   public CreateMerchantResponse createMerchant(CreateMerchantRequest request)
       throws CatalogTownException {
     MerchantEntity merchantEntity = merchantRepository.save(convertToEntity(request));
-    return null;
+    return convertToMerchantResponse(merchantEntity);
+  }
+
+  private CreateMerchantResponse convertToMerchantResponse(MerchantEntity merchantEntity) {
+    return CreateMerchantResponse.builder()
+        .name(merchantEntity.getName())
+        .code(merchantEntity.getCode())
+        .description(merchantEntity.getDescription())
+        .addressLine1(merchantEntity.getAddressLine1())
+        .addressLine2(merchantEntity.getAddressLine2())
+        .pinCode(merchantEntity.getPinCode())
+        .city(merchantEntity.getCity())
+        .country(merchantEntity.getCountry())
+        .createdBy(merchantEntity.getCreatedBy())
+        .createdDate(merchantEntity.getCreateDate().toString())
+        .build();
   }
 
   private MerchantEntity convertToEntity(CreateMerchantRequest request) {
@@ -35,11 +50,12 @@ public class MerchantServiceImpl implements MerchantService {
         .addressLine2(request.getAddressLine2())
         .pinCode(request.getPinCode())
         .city(request.getCity())
+        .country("IN")
         .build();
   }
 
   private String generateMerchantCode(String name) {
-    return new StringBuilder(name.substring(0, name.length() < 4 ? name.length() : 4))
-        .append(new Random().nextInt(2)).toString();
+    return new StringBuilder(name.substring(0, name.length() < 4 ? name.length() : 4)).append(DASH)
+        .append(new Random().nextInt(89) + 10).toString();
   }
 }
