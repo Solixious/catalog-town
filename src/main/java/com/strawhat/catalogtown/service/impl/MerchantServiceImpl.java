@@ -1,20 +1,24 @@
 package com.strawhat.catalogtown.service.impl;
 
+import com.strawhat.catalogtown.constants.ErrorCode;
 import com.strawhat.catalogtown.exception.CatalogTownException;
 import com.strawhat.catalogtown.model.entity.MerchantEntity;
 import com.strawhat.catalogtown.model.request.CreateMerchantRequest;
 import com.strawhat.catalogtown.model.response.CreateMerchantResponse;
 import com.strawhat.catalogtown.repository.MerchantRepository;
 import com.strawhat.catalogtown.service.MerchantService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
 @Service
+@Slf4j
 public class MerchantServiceImpl implements MerchantService {
 
   private static final String DASH = "-";
+  public static final String MERCHANT_CODE_APPEND_TEXT = "XXXX";
 
   @Autowired
   private MerchantRepository merchantRepository;
@@ -22,8 +26,22 @@ public class MerchantServiceImpl implements MerchantService {
   @Override
   public CreateMerchantResponse createMerchant(CreateMerchantRequest request)
       throws CatalogTownException {
+    log.debug("Received Create Merchant Request: {}", request);
+
+    if(isExistingMerchant(request.getName())) {
+      log.error("Merchant name already exists: {}", request.getName());
+      throw new CatalogTownException(ErrorCode.MERCHANT_EXISTS);
+    }
+
     MerchantEntity merchantEntity = merchantRepository.save(convertToEntity(request));
+
+    log.debug("Created New Merchant : {}", merchantEntity);
     return convertToMerchantResponse(merchantEntity);
+  }
+
+  @Override
+  public boolean isExistingMerchant(String name) {
+    return merchantRepository.findByName(name).isPresent();
   }
 
   private CreateMerchantResponse convertToMerchantResponse(MerchantEntity merchantEntity) {
@@ -50,12 +68,15 @@ public class MerchantServiceImpl implements MerchantService {
         .addressLine2(request.getAddressLine2())
         .pinCode(request.getPinCode())
         .city(request.getCity())
-        .country("IN")
+        .country(request.getCountry())
         .build();
   }
 
   private String generateMerchantCode(String name) {
-    return new StringBuilder(name.substring(0, name.length() < 4 ? name.length() : 4)).append(DASH)
-        .append(new Random().nextInt(89) + 10).toString();
+    String merchantCode;
+    name = name.toUpperCase() + MERCHANT_CODE_APPEND_TEXT;
+    while(merchantRepository.findByCode(merchantCode = new StringBuilder(name.substring(0, 4)).append(DASH)
+        .append(new Random().nextInt(8999) + 1000).toString()).isPresent());
+    return merchantCode;
   }
 }

@@ -12,4 +12,10 @@ public interface MerchantService {
    * @throws CatalogTownException merchant is duplicated or necessary parameters are missing
    */
   CreateMerchantResponse createMerchant(CreateMerchantRequest request) throws CatalogTownException;
+
+  /**
+   * @param name Merchant name
+   * @return true if the merchant exists
+   */
+  boolean isExistingMerchant(String name);
 }

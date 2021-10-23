@@ -2,6 +2,7 @@ package com.strawhat.catalogtown.model.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @SuperBuilder
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = MerchantEntity.TABLE_NAME)
 public class MerchantEntity extends BaseEntity {
 

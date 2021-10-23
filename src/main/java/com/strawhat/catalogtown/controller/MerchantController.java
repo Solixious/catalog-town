@@ -24,7 +24,10 @@ public class MerchantController {
     try {
       return merchantService.createMerchant(createMerchantRequest);
     } catch (CatalogTownException e) {
-      return null;
+      return CreateMerchantResponse.builder()
+          .errorCode(e.getErrorCode())
+          .errorDescription(e.getErrorDescription())
+          .build();
     }
   }
 }

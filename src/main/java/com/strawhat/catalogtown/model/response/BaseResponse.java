@@ -8,5 +8,5 @@ import lombok.experimental.SuperBuilder;
 public class BaseResponse {
 
   private String errorCode;
-  private String errorMessage;
+  private String errorDescription;
 }
