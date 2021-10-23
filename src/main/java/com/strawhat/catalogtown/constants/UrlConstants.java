@@ -4,4 +4,5 @@ public interface UrlConstants {
   String BASE_PATH = "/catalog-town";
   String MERCHANT = "/merchant";
   String CREATE = "/create";
+  String CHECK = "/check/{name}";
 }

@@ -24,7 +24,7 @@ public class MerchantServiceImpl implements MerchantService {
   private MerchantRepository merchantRepository;
 
   @Override
-  public CreateMerchantResponse createMerchant(CreateMerchantRequest request)
+  public CreateMerchantResponse createMerchant(final CreateMerchantRequest request)
       throws CatalogTownException {
     log.debug("Received Create Merchant Request: {}", request);
 
@@ -33,18 +33,19 @@ public class MerchantServiceImpl implements MerchantService {
       throw new CatalogTownException(ErrorCode.MERCHANT_EXISTS);
     }
 
-    MerchantEntity merchantEntity = merchantRepository.save(convertToEntity(request));
+    MerchantEntity merchantEntity = this.merchantRepository.save(convertToEntity(request));
 
     log.debug("Created New Merchant : {}", merchantEntity);
     return convertToMerchantResponse(merchantEntity);
   }
 
   @Override
-  public boolean isExistingMerchant(String name) {
-    return merchantRepository.findByName(name).isPresent();
+  public boolean isExistingMerchant(final String name) {
+    log.debug("Checking if merchant name exists: {}", name);
+    return this.merchantRepository.findByName(name).isPresent();
   }
 
-  private CreateMerchantResponse convertToMerchantResponse(MerchantEntity merchantEntity) {
+  private CreateMerchantResponse convertToMerchantResponse(final MerchantEntity merchantEntity) {
     return CreateMerchantResponse.builder()
         .name(merchantEntity.getName())
         .code(merchantEntity.getCode())
@@ -59,7 +60,7 @@ public class MerchantServiceImpl implements MerchantService {
         .build();
   }
 
-  private MerchantEntity convertToEntity(CreateMerchantRequest request) {
+  private MerchantEntity convertToEntity(final CreateMerchantRequest request) {
     return MerchantEntity.builder()
         .name(request.getName())
         .code(generateMerchantCode(request.getName()))
@@ -75,7 +76,7 @@ public class MerchantServiceImpl implements MerchantService {
   private String generateMerchantCode(String name) {
     String merchantCode;
     name = name.toUpperCase() + MERCHANT_CODE_APPEND_TEXT;
-    while(merchantRepository.findByCode(merchantCode = new StringBuilder(name.substring(0, 4)).append(DASH)
+    while(this.merchantRepository.findByCode(merchantCode = new StringBuilder(name.substring(0, 4)).append(DASH)
         .append(new Random().nextInt(8999) + 1000).toString()).isPresent());
     return merchantCode;
   }

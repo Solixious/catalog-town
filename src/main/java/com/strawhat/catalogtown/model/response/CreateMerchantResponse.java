@@ -1,6 +1,5 @@
 package com.strawhat.catalogtown.model.response;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
