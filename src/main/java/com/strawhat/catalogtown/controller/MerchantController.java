@@ -2,6 +2,7 @@ package com.strawhat.catalogtown.controller;
 
 import com.strawhat.catalogtown.exception.CatalogTownException;
 import com.strawhat.catalogtown.model.request.CreateMerchantRequest;
+import com.strawhat.catalogtown.model.request.UpdateMerchantRequest;
 import com.strawhat.catalogtown.model.response.CheckMerchantResponse;
 import com.strawhat.catalogtown.model.Merchant;
 import com.strawhat.catalogtown.service.MerchantService;
@@ -35,6 +36,18 @@ public class MerchantController {
       return CheckMerchantResponse.builder().name(name).exists(merchantService.isExistingMerchant(name)).build();
     } catch (CatalogTownException e) {
       return CheckMerchantResponse.builder()
+          .errorCode(e.getErrorCode())
+          .errorDescription(e.getErrorDescription())
+          .build();
+    }
+  }
+
+  @PostMapping(UPDATE)
+  public Merchant update(@RequestBody final UpdateMerchantRequest updateMerchantRequest) {
+    try {
+      return merchantService.updateMerchant(updateMerchantRequest);
+    } catch (CatalogTownException e) {
+      return Merchant.builder()
           .errorCode(e.getErrorCode())
           .errorDescription(e.getErrorDescription())
           .build();
