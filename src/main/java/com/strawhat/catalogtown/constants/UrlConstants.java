@@ -6,4 +6,5 @@ public interface UrlConstants {
   String CREATE = "/create";
   String UPDATE = "/update";
   String CHECK = "/check/{name}";
+  String GET = "/{code}";
 }

@@ -24,7 +24,14 @@ public interface MerchantService {
   /**
    * @param updateMerchantRequest Merchant Update Request
    * @return updated merchant
-   * @throws CatalogTownException if merchant doesn't exist
+   * @throws CatalogTownException merchant does not exist
    */
   Merchant updateMerchant(UpdateMerchantRequest updateMerchantRequest) throws CatalogTownException;
+
+  /**
+   * @param code Merchant Code
+   * @return merchant corresponding to the given code
+   * @throws CatalogTownException merchant does not exist
+   */
+  Merchant getMerchant(String code) throws CatalogTownException;
 }

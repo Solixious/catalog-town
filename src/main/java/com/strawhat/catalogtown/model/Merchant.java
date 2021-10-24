@@ -20,4 +20,6 @@ public class Merchant extends BaseResponse {
   private String country;
   private String createdBy;
   private String createDate;
+  private String updatedBy;
+  private String updateDate;
 }

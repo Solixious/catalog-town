@@ -53,4 +53,16 @@ public class MerchantController {
           .build();
     }
   }
+
+  @GetMapping(GET)
+  public Merchant get(@PathVariable final String code) {
+    try {
+      return merchantService.getMerchant(code);
+    } catch (CatalogTownException e) {
+      return Merchant.builder()
+          .errorCode(e.getErrorCode())
+          .errorDescription(e.getErrorDescription())
+          .build();
+    }
+  }
 }

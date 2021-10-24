@@ -62,6 +62,14 @@ public class MerchantServiceImpl implements MerchantService {
     return convertToMerchantResponse(merchantEntity);
   }
 
+  @Override
+  public Merchant getMerchant(String code) throws CatalogTownException {
+    validateMerchantCode(code);
+    MerchantEntity merchantEntity = merchantRepository.findByCode(code)
+        .orElseThrow(() -> new CatalogTownException(ErrorCode.MERCHANT_NOT_FOUND));
+    return convertToMerchantResponse(merchantEntity);
+  }
+
   private Merchant convertToMerchantResponse(final MerchantEntity merchantEntity) {
     return mapper.map(merchantEntity, Merchant.class);
   }
@@ -93,13 +101,17 @@ public class MerchantServiceImpl implements MerchantService {
     }
   }
 
-  private void validateUpdateMerchantRequest(UpdateMerchantRequest request)
+  private void validateUpdateMerchantRequest(final UpdateMerchantRequest request)
       throws CatalogTownException{
     if(request == null) {
       log.error("Request body is missing for update merchant.");
       throw new CatalogTownException(ErrorCode.REQUEST_BODY_MISSING);
     }
-    if(request.getCode() == null || "".equals(request.getCode())) {
+    validateMerchantCode(request.getCode());
+  }
+
+  private void validateMerchantCode(String code) throws CatalogTownException {
+    if(code == null || "".equals(code)) {
       log.error("Merchant code is required for updating merchant.");
       throw new CatalogTownException(ErrorCode.MERCHANT_CODE_NOT_FOUND);
     }
