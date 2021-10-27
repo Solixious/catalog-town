@@ -22,4 +22,5 @@ public class Merchant extends BaseResponse {
   private String createDate;
   private String updatedBy;
   private String updateDate;
+  private Boolean active;
 }

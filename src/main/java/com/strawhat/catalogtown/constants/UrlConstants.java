@@ -7,4 +7,6 @@ public interface UrlConstants {
   String UPDATE = "/update";
   String CHECK = "/check/{name}";
   String GET = "/{code}";
+  String DEACTIVATE = "/deactivate/{code}";
+  String ACTIVATE = "/activate/{code}";
 }

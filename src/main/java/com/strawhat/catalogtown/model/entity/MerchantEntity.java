@@ -17,10 +17,6 @@ public class MerchantEntity extends BaseEntity {
 
   public static final String TABLE_NAME = "merchant";
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
   @Column(unique = true)
   private String code;
 

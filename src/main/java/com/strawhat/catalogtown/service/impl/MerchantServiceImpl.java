@@ -70,6 +70,24 @@ public class MerchantServiceImpl implements MerchantService {
     return convertToMerchantResponse(merchantEntity);
   }
 
+  @Override
+  public Merchant deactivate(final String code) throws CatalogTownException {
+    validateMerchantCode(code);
+    MerchantEntity merchantEntity = merchantRepository.findByCode(code)
+        .orElseThrow(() -> new CatalogTownException(ErrorCode.MERCHANT_NOT_FOUND));
+    merchantEntity.setActive(false);
+    return convertToMerchantResponse(merchantRepository.save(merchantEntity));
+  }
+
+  @Override
+  public Merchant activate(final String code) throws CatalogTownException {
+    validateMerchantCode(code);
+    MerchantEntity merchantEntity = merchantRepository.findByCode(code)
+        .orElseThrow(() -> new CatalogTownException(ErrorCode.MERCHANT_NOT_FOUND));
+    merchantEntity.setActive(true);
+    return convertToMerchantResponse(merchantRepository.save(merchantEntity));
+  }
+
   private Merchant convertToMerchantResponse(final MerchantEntity merchantEntity) {
     return mapper.map(merchantEntity, Merchant.class);
   }

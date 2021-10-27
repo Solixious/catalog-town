@@ -48,5 +48,5 @@ public class BaseEntity {
   private String updatedBy;
 
   @Builder.Default
-  private final Boolean active = true;
+  private Boolean active = true;
 }

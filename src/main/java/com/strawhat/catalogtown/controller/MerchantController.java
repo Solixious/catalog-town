@@ -65,4 +65,28 @@ public class MerchantController {
           .build();
     }
   }
+
+  @PostMapping(DEACTIVATE)
+  public Merchant deactivate(@PathVariable final String code) {
+    try {
+      return merchantService.deactivate(code);
+    } catch (CatalogTownException e) {
+      return Merchant.builder()
+          .errorCode(e.getErrorCode())
+          .errorDescription(e.getErrorDescription())
+          .build();
+    }
+  }
+
+  @PostMapping(ACTIVATE)
+  public Merchant activate(@PathVariable final String code) {
+    try {
+      return merchantService.activate(code);
+    } catch (CatalogTownException e) {
+      return Merchant.builder()
+          .errorCode(e.getErrorCode())
+          .errorDescription(e.getErrorDescription())
+          .build();
+    }
+  }
 }

@@ -34,4 +34,18 @@ public interface MerchantService {
    * @throws CatalogTownException merchant does not exist
    */
   Merchant getMerchant(String code) throws CatalogTownException;
+
+  /**
+   * @param code Merchant Code
+   * @return merchant corresponding to the given code
+   * @throws CatalogTownException merchant does not exist
+   */
+  Merchant deactivate(String code) throws CatalogTownException;
+
+  /**
+   * @param code Merchant Code
+   * @return merchant corresponding to the given code
+   * @throws CatalogTownException merchant does not exist
+   */
+  Merchant activate(String code) throws CatalogTownException;
 }
