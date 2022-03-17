@@ -130,7 +130,7 @@ public class MerchantServiceImpl implements MerchantService {
 
   private void validateMerchantCode(String code) throws CatalogTownException {
     if(code == null || "".equals(code)) {
-      log.error("Merchant code is required for updating merchant.");
+      log.error("Merchant code is required in the request.");
       throw new CatalogTownException(ErrorCode.MERCHANT_CODE_NOT_FOUND);
     }
   }
